@@ -249,13 +249,8 @@ function App() {
                 <div className="border-l-2 border-outline-variant pl-6 space-y-6">
                   <div className="relative">
                     <div className="absolute w-3.5 h-3.5 bg-background border-2 border-primary rounded-full -left-[31px] top-1.5"></div>
-                    <h4 className="font-headline-md text-[18px] text-on-surface font-semibold">Information Technology Course</h4>
-                    <div className="font-label-mono text-caption text-on-surface-variant uppercase font-bold mb-1">Sir K.P. College of Commerce | 2024–2025</div>
-                  </div>
-                  <div className="relative">
-                    <div className="absolute w-3.5 h-3.5 bg-background border-2 border-primary rounded-full -left-[31px] top-1.5"></div>
                     <h4 className="font-headline-md text-[18px] text-on-surface font-semibold">B.Com Honours</h4>
-                    <div className="font-label-mono text-caption text-on-surface-variant uppercase font-bold mb-1">VNSGU | 2021–2024</div>
+                    <div className="font-label-mono text-caption text-on-surface-variant uppercase font-bold mb-1">Sir K.P. College of Commerce| VNSGU | 2021–2024</div>
                   </div>
                   <div className="relative">
                     <div className="absolute w-3.5 h-3.5 bg-background border-2 border-primary rounded-full -left-[31px] top-1.5"></div>
