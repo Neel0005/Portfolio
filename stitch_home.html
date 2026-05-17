@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&amp;family=JetBrains+Mono:wght@400;500&amp;family=Geist:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            background-color: #fbf9f8;
+            color: #1b1c1c;
+            -webkit-font-smoothing: antialiased;
+        }
+        .terminal-cursor::after {
+            content: '_';
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            from, to { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .grid-pattern {
+            background-image: radial-gradient(#dbd9d9 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-dim": "#dbd9d9",
+                      "on-secondary-fixed-variant": "#47473f",
+                      "surface": "#fbf9f8",
+                      "surface-container-lowest": "#ffffff",
+                      "tertiary-fixed-dim": "#c8c7bc",
+                      "on-tertiary-fixed": "#1c1c15",
+                      "on-primary": "#ffffff",
+                      "primary-fixed-dim": "#c8c6c5",
+                      "inverse-on-surface": "#f2f0f0",
+                      "error": "#ba1a1a",
+                      "primary": "#000000",
+                      "surface-tint": "#5f5e5e",
+                      "on-primary-fixed": "#1c1b1b",
+                      "surface-container": "#efeded",
+                      "on-error": "#ffffff",
+                      "inverse-surface": "#303030",
+                      "outline": "#747878",
+                      "on-secondary-container": "#65655c",
+                      "secondary-fixed-dim": "#c8c7bc",
+                      "secondary-container": "#e5e3d7",
+                      "secondary-fixed": "#e5e3d7",
+                      "tertiary-fixed": "#e5e3d7",
+                      "surface-container-highest": "#e4e2e2",
+                      "error-container": "#ffdad6",
+                      "tertiary-container": "#1c1c15",
+                      "primary-container": "#1c1b1b",
+                      "on-primary-fixed-variant": "#474646",
+                      "on-tertiary-fixed-variant": "#47473f",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "on-surface": "#1b1c1c",
+                      "surface-bright": "#fbf9f8",
+                      "on-background": "#1b1c1c",
+                      "tertiary": "#000000",
+                      "background": "#fbf9f8",
+                      "outline-variant": "#c4c7c7",
+                      "primary-fixed": "#e5e2e1",
+                      "on-tertiary-container": "#85847b",
+                      "on-surface-variant": "#444748",
+                      "surface-container-low": "#f5f3f3",
+                      "surface-container-high": "#eae8e7",
+                      "on-primary-container": "#858383",
+                      "inverse-primary": "#c8c6c5",
+                      "on-error-container": "#93000a",
+                      "surface-variant": "#e4e2e2",
+                      "secondary": "#5f5f56",
+                      "on-secondary-fixed": "#1b1c15",
+                      "border-subtle": "#c4c7c7",
+                      "text-primary": "#1b1c1c",
+                      "text-secondary": "#444748"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "unit": "4px",
+                      "gutter": "24px",
+                      "grid-dot-gap": "24px",
+                      "margin": "32px",
+                      "grid-dot-size": "1px",
+                      "section-gap": "120px",
+                      "container-max": "1200px",
+                      "element-gap": "16px",
+                      "margin-mobile": "20px"
+              },
+              "fontFamily": {
+                      "body-lg": ["Geist"],
+                      "headline-md": ["Geist"],
+                      "headline-lg-mobile": ["Geist"],
+                      "label-mono": ["JetBrains Mono"],
+                      "body-md": ["Geist"],
+                      "headline-lg": ["Geist"],
+                      "headline-xl": ["Geist"],
+                      "caption": ["Geist"]
+              },
+              "fontSize": {
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "500"}],
+                      "headline-lg-mobile": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "label-mono": ["14px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                      "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                      "headline-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                      "headline-xl": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "700"}],
+                      "caption": ["12px", {"lineHeight": "1.4", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+      </script>
+</head>
+<body class="bg-background selection:bg-primary selection:text-on-primary font-body-md text-on-surface">
+<!-- TopNavBar -->
+<header class="bg-surface-container-lowest border-b border-outline-variant fixed top-0 left-0 right-0 z-50">
+<nav class="flex justify-between items-center w-full px-margin-mobile md:px-gutter max-w-container-max mx-auto h-20">
+<div class="font-headline-lg text-headline-lg-mobile font-bold text-primary tracking-tighter">
+                Neel Patel
+            </div>
+<div class="hidden md:flex items-center gap-8">
+<a class="font-label-mono text-label-mono text-primary border-b-2 border-primary pb-1 uppercase" href="#">Home</a>
+<a class="font-label-mono text-label-mono text-on-surface-variant hover:text-primary transition-colors uppercase" href="#">About</a>
+<a class="font-label-mono text-label-mono text-on-surface-variant hover:text-primary transition-colors uppercase" href="#">Projects</a>
+<a class="font-label-mono text-label-mono text-on-surface-variant hover:text-primary transition-colors uppercase" href="#">Contact</a>
+</div>
+<button class="bg-primary text-on-primary px-6 py-2 font-label-mono text-label-mono uppercase font-bold transition-all duration-200 hover:bg-on-surface-variant active:scale-95 rounded-lg">
+                Get in touch
+            </button>
+</nav>
+</header>
+<main>
+<!-- Hero Section -->
+<section class="pt-40 pb-24 px-margin-mobile md:px-gutter max-w-container-max mx-auto relative overflow-hidden">
+<div class="absolute inset-0 grid-pattern opacity-30 -z-10"></div>
+<div class="flex flex-col gap-6 max-w-3xl">
+<div class="flex items-center gap-3">
+<span class="w-2 h-2 bg-primary rounded-full"></span>
+<span class="font-label-mono text-label-mono text-on-surface-variant uppercase tracking-widest">Available for hire</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tighter">
+                    Neel Patel
+                </h1>
+<p class="font-headline-md text-headline-md text-primary opacity-90 leading-tight">
+                    Full Stack Developer | MERN Stack | React &amp; Next.js
+                </p>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">
+                    I build clean, scalable web apps — from landing pages to full-stack products. Focused on performance, accessibility, and high-quality code architecture.
+                </p>
+<div class="flex flex-wrap gap-4 pt-4">
+<button class="bg-primary text-on-primary px-8 py-4 font-label-mono text-label-mono uppercase font-bold hover:bg-on-surface-variant transition-all active:scale-95 rounded-lg">
+                        View My Work
+                    </button>
+<button class="border border-outline text-on-surface px-8 py-4 font-label-mono text-label-mono uppercase font-bold hover:border-primary transition-all active:scale-95 rounded-lg">
+                        Contact Me
+                    </button>
+</div>
+</div>
+<!-- Terminal Component -->
+<div class="mt-20 border border-outline-variant bg-surface-container rounded-xl overflow-hidden shadow-sm">
+<div class="bg-surface-container-high px-4 py-2 flex items-center justify-between border-b border-outline-variant">
+<div class="flex gap-2">
+<div class="w-3 h-3 rounded-full bg-outline"></div>
+<div class="w-3 h-3 rounded-full bg-outline"></div>
+<div class="w-3 h-3 rounded-full bg-outline"></div>
+</div>
+<span class="font-label-mono text-caption text-on-surface-variant opacity-60">portfolio.sh — 80x24</span>
+</div>
+<div class="p-8 font-label-mono text-label-mono space-y-4">
+<div class="flex gap-4">
+<span class="text-on-surface-variant opacity-30">01</span>
+<p><span class="font-bold">const</span> developer = {</p>
+</div>
+<div class="flex gap-4">
+<span class="text-on-surface-variant opacity-30">02</span>
+<p class="pl-4">name: <span class="text-on-surface font-medium">"Neel Patel"</span>,</p>
+</div>
+<div class="flex gap-4">
+<span class="text-on-surface-variant opacity-30">03</span>
+<p class="pl-4">role: <span class="text-on-surface font-medium">"Full Stack Architect"</span>,</p>
+</div>
+<div class="flex gap-4">
+<span class="text-on-surface-variant opacity-30">04</span>
+<p class="pl-4">specialty: [<span class="text-on-surface font-medium">"MERN"</span>, <span class="text-on-surface font-medium">"Next.js"</span>],</p>
+</div>
+<div class="flex gap-4">
+<span class="text-on-surface-variant opacity-30">05</span>
+<p class="pl-4">status: <span class="text-on-surface font-medium">"Building the future"</span></p>
+</div>
+<div class="flex gap-4">
+<span class="text-on-surface-variant opacity-30">06</span>
+<p>};</p>
+</div>
+<div class="flex gap-4 pt-4">
+<span class="text-on-surface-variant opacity-30">07</span>
+<p><span class="text-primary font-bold">$</span> <span class="terminal-cursor">npm install excellence</span></p>
+</div>
+</div>
+</div>
+</section>
+<!-- Tech Stack Row -->
+<section class="border-y border-outline-variant bg-surface-container-low py-12">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-gutter">
+<div class="flex flex-wrap justify-center md:justify-between items-center gap-8 grayscale hover:grayscale-0 transition-all">
+<div class="flex items-center gap-2 font-label-mono text-label-mono uppercase text-on-surface-variant">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'opsz' 20">database</span> MongoDB
+                    </div>
+<div class="flex items-center gap-2 font-label-mono text-label-mono uppercase text-on-surface-variant">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'opsz' 20">terminal</span> Express.js
+                    </div>
+<div class="flex items-center gap-2 font-label-mono text-label-mono uppercase text-on-surface-variant">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'opsz' 20">deployed_code</span> React
+                    </div>
+<div class="flex items-center gap-2 font-label-mono text-label-mono uppercase text-on-surface-variant">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'opsz' 20">javascript</span> Node.js
+                    </div>
+<div class="flex items-center gap-2 font-label-mono text-label-mono uppercase text-on-surface-variant">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'opsz' 20">layers</span> Next.js
+                    </div>
+<div class="flex items-center gap-2 font-label-mono text-label-mono uppercase text-on-surface-variant">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'opsz' 20">palette</span> Tailwind CSS
+                    </div>
+<div class="flex items-center gap-2 font-label-mono text-label-mono uppercase text-on-surface-variant">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'opsz' 20">account_tree</span> Git
+                    </div>
+</div>
+</div>
+</section>
+<!-- Featured Projects -->
+<section class="py-section-gap px-margin-mobile md:px-gutter max-w-container-max mx-auto">
+<div class="mb-16">
+<span class="font-label-mono text-label-mono text-primary uppercase tracking-[0.2em] mb-4 block">Portfolio</span>
+<h2 class="font-headline-lg text-headline-lg-mobile text-on-surface">Selected Works</h2>
+<div class="w-16 h-1 bg-primary mt-4"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Large Card -->
+<div class="md:col-span-8 border border-outline-variant bg-surface-container-lowest group hover:border-primary transition-all overflow-hidden flex flex-col rounded-xl">
+<div class="h-96 relative overflow-hidden">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" data-alt="A high-tech dashboard interface showing complex data visualizations, charts, and code snippets in a dark-themed UI. The aesthetic is clean and professional, using a deep black background with glowing purple and cyan accents. High-end digital architecture and precision layout are the focus of this modern web application display." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGepS3ZxvMFtZPLhNFvT705KqWKKudSjIbt3-d5TiNK_XiDvcki1vupXubl-g8MnPKX-TljXFaEpP8LfE63y0fyqKfHVgiJRO5aafBnLXsEPrD97xOv9JfrqthC03_3KHeoLmsHpgKBH0FrlmckYWRPBNUeVee_pWKECTQ0Pt-HBFtL8-vIwkgAW2rRBYFQYdEKeUAWsh9EmZGCfhEBS5yrzoib4BniPFCK1xYeHRPiYW2bVV6KbwXY8EA6_wGOuHUYjLCBE-hy337"/>
+<div class="absolute inset-0 bg-primary/5"></div>
+</div>
+<div class="p-10">
+<div class="flex gap-2 mb-6">
+<span class="px-3 py-1 bg-surface-container border border-outline-variant font-label-mono text-caption text-on-surface-variant uppercase">MERN Stack</span>
+<span class="px-3 py-1 bg-surface-container border border-outline-variant font-label-mono text-caption text-on-surface-variant uppercase">Websocket</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-4">Nexus Analytics Platform</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8 leading-relaxed">A real-time data processing engine built for enterprise-level traffic monitoring and predictive user behavior analysis.</p>
+<a class="inline-flex items-center gap-3 font-label-mono text-label-mono uppercase font-bold text-primary hover:gap-5 transition-all" href="#">
+                            View Project <span class="material-symbols-outlined" style="font-variation-settings: 'wght' 600">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Small Card 1 -->
+<div class="md:col-span-4 border border-outline-variant bg-surface-container-lowest group hover:border-primary transition-all flex flex-col rounded-xl overflow-hidden">
+<div class="h-56 overflow-hidden">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" data-alt="A minimalist mobile application interface showing a clean calendar and task management system. The design uses dark mode with sharp typography and subtle purple gradients. The scene is lit with a soft ambient glow, emphasizing the efficiency and organization of a premium productivity tool for developers." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCb_nOJwW5IPQlIxuf65d0O3aPCE62I1_kjBKrU7XlEv_6KNjCWZxZPsxF_xboWY9k5mugtzqoAJ5T0Q6TiuWbabEjQs8r3ASR8lRa_VT4MENRV8f02XC2nGdVZCI3UloPwnxnB527O3MVbdoheJImMwNe6N2lWl5A0bpG5PmXvp5GyIolwlTOq2XYYBZQ8imUjEBsTwZspR74MFvS8H9Mi7OYep7ZCTebK6SEPrwlO_S039LDSCQ3uOn-bhxeww3yt8i04zFmgPfEV"/>
+</div>
+<div class="p-8">
+<h3 class="font-headline-md text-[20px] font-bold text-on-surface mb-4">TaskMaster Pro</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 leading-relaxed">Productivity tool with automated scheduling.</p>
+<div class="flex gap-4">
+<span class="font-label-mono text-caption font-medium text-primary uppercase">React Native</span>
+<span class="font-label-mono text-caption font-medium text-primary uppercase">Firebase</span>
+</div>
+</div>
+</div>
+<!-- Small Card 2 -->
+<div class="md:col-span-4 border border-outline-variant bg-surface-container-low group hover:border-primary transition-all flex flex-col rounded-xl">
+<div class="p-8 h-full flex flex-col justify-between">
+<div>
+<div class="w-12 h-12 bg-primary text-on-primary rounded-lg flex items-center justify-center mb-8">
+<span class="material-symbols-outlined">shopping_cart</span>
+</div>
+<h3 class="font-headline-md text-[20px] font-bold text-on-surface mb-4">E-Com API</h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">Headless commerce backend with Stripe integration and inventory management.</p>
+</div>
+<div class="pt-8">
+<span class="font-label-mono text-caption text-primary uppercase font-bold">Node.js + PostgreSQL</span>
+</div>
+</div>
+</div>
+<!-- Small Card 3 -->
+<div class="md:col-span-8 border border-outline-variant bg-surface-container-lowest group hover:border-primary transition-all flex flex-col md:flex-row rounded-xl overflow-hidden">
+<div class="md:w-1/2 p-10 flex flex-col justify-center">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-6">Portfolio OS</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8 leading-relaxed">A terminal-inspired personal website with interactive CLI commands and system simulations.</p>
+<div class="flex gap-6">
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer transition-colors">code</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer transition-colors">open_in_new</span>
+</div>
+</div>
+<div class="md:w-1/2 bg-surface-container-high p-6 border-l border-outline-variant">
+<div class="w-full h-full border border-outline-variant bg-surface-container-lowest rounded-lg p-6 font-label-mono text-caption text-on-surface-variant">
+<div class="space-y-1">
+<p><span class="text-primary font-bold">$</span> system-check --verbose</p>
+<p class="text-on-surface-variant opacity-70">Loading assets... OK</p>
+<p class="text-on-surface-variant opacity-70">Optimizing bundles... OK</p>
+<p class="text-on-surface-variant opacity-70">Connecting to DB... OK</p>
+<p><span class="text-primary font-bold">$</span> start-deployment</p>
+<p class="mt-4"><span class="bg-primary text-on-primary px-3 py-1 font-bold">DEPLOYING TO VERCEL...</span></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="py-section-gap bg-surface-container border-y border-outline-variant">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-gutter text-center">
+<h2 class="font-headline-xl text-headline-xl text-on-surface mb-8 tracking-tighter">Let's build something <br class="hidden md:block"/> remarkable together.</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto mb-12">
+                    Currently accepting new projects and full-time opportunities. If you have a vision, I have the stack to build it.
+                </p>
+<div class="flex justify-center">
+<button class="bg-primary text-on-primary px-12 py-5 font-label-mono text-label-mono uppercase font-bold hover:bg-on-surface-variant transition-all active:scale-95 rounded-lg flex items-center gap-3">
+                        Start a Conversation
+                        <span class="material-symbols-outlined">send</span>
+</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest border-t border-outline-variant">
+<div class="flex flex-col md:flex-row justify-between items-center w-full px-margin-mobile md:px-gutter py-12 max-w-container-max mx-auto gap-element-gap">
+<div class="font-label-mono text-label-mono font-bold text-primary uppercase">
+                NP // 2024
+            </div>
+<div class="font-body-md text-caption text-on-surface-variant text-center">
+                © 2024 Neel Patel. Built with precision.
+            </div>
+<div class="flex gap-8">
+<a class="font-label-mono text-label-mono text-on-surface-variant hover:text-primary transition-colors uppercase" href="#">LinkedIn</a>
+<a class="font-label-mono text-label-mono text-on-surface-variant hover:text-primary transition-colors uppercase" href="#">GitHub</a>
+<a class="font-label-mono text-label-mono text-on-surface-variant hover:text-primary transition-colors uppercase" href="#">Email</a>
+</div>
+</div>
+</footer>
+</body></html>
