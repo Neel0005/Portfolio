@@ -1,10 +1,52 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import Lenis from 'lenis';
 
 function App() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+
+  // Smooth Scrolling Setup with Lenis
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      direction: 'vertical',
+      gestureDirection: 'vertical',
+      smooth: true,
+      mouseMultiplier: 1,
+      smoothTouch: false,
+      touchMultiplier: 2,
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    return () => {
+      lenis.destroy();
+    };
+  }, []);
+
+  // Scroll Progress Bar
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
+  // Hero Parallax Effects
+  const { scrollY } = useScroll();
+  const heroTextY = useTransform(scrollY, [0, 800], [0, 250]);
+  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0]);
+  
+  const terminalY = useTransform(scrollY, [0, 800], [0, 150]);
+  const terminalRotate = useTransform(scrollY, [0, 800], [0, 5]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -20,26 +62,54 @@ function App() {
     }
   };
 
-  // Framer Motion Animation Presets
+  // Advanced Framer Motion Animation Presets
   const fadeInUp = {
-    initial: { opacity: 0, y: 30 },
-    whileInView: { opacity: 1, y: 0 },
+    initial: { opacity: 0, y: 60, scale: 0.95 },
+    whileInView: { opacity: 1, y: 0, scale: 1 },
     viewport: { once: true, margin: "-100px" },
-    transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] }
+    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] }
+  };
+
+  const slideInLeft = {
+    initial: { opacity: 0, x: -80 },
+    whileInView: { opacity: 1, x: 0 },
+    viewport: { once: true, margin: "-100px" },
+    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] }
+  };
+
+  const slideInRight = {
+    initial: { opacity: 0, x: 80 },
+    whileInView: { opacity: 1, x: 0 },
+    viewport: { once: true, margin: "-100px" },
+    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] }
+  };
+
+  const zoomIn = {
+    initial: { opacity: 0, scale: 0.8 },
+    whileInView: { opacity: 1, scale: 1 },
+    viewport: { once: true, margin: "-100px" },
+    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] }
   };
 
   const staggerContainer = {
     initial: {},
     whileInView: {
       transition: {
-        staggerChildren: 0.15
+        staggerChildren: 0.2,
+        delayChildren: 0.1
       }
     },
     viewport: { once: true, margin: "-100px" }
   };
 
   return (
-    <div className="bg-background selection:bg-primary selection:text-on-primary font-body-md text-on-surface min-h-screen">
+    <div className="bg-background selection:bg-primary selection:text-on-primary font-body-md text-on-surface min-h-screen relative">
+      {/* Scroll Progress Bar */}
+      <motion.div
+        className="fixed top-0 left-0 right-0 h-[4px] bg-primary origin-left z-[60]"
+        style={{ scaleX }}
+      />
+      
       {/* TopNavBar */}
       <header className="bg-surface-container-lowest/80 backdrop-blur-md border-b border-outline-variant fixed top-0 left-0 right-0 z-50">
         <nav className="flex justify-between items-center w-full px-margin-mobile md:px-gutter max-w-container-max mx-auto h-20">
@@ -82,9 +152,10 @@ function App() {
             
             <motion.div 
               className="flex flex-col gap-6 max-w-2xl"
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 60 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+              style={{ y: heroTextY, opacity: heroOpacity }}
             >
               <div className="flex items-center gap-3">
                 <span className="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
@@ -112,9 +183,10 @@ function App() {
             {/* Terminal Component */}
             <motion.div 
               className="w-full lg:w-[460px] border border-outline-variant bg-surface-container rounded-xl overflow-hidden shadow-sm flex-shrink-0"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+              initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
+              animate={{ opacity: 1, scale: 1, rotate: 0 }}
+              transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              style={{ y: terminalY, rotate: terminalRotate }}
             >
               <div className="bg-surface-container-high px-4 py-2 flex items-center justify-between border-b border-outline-variant">
                 <div className="flex gap-2">
@@ -164,7 +236,13 @@ function App() {
         </section>
 
         {/* Tech Stack Row */}
-        <section className="border-y border-outline-variant bg-surface-container-low py-12">
+        <motion.section 
+          className="border-y border-outline-variant bg-surface-container-low py-12"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
           <div className="max-w-container-max mx-auto px-margin-mobile md:px-gutter">
             <div className="flex flex-wrap justify-center md:justify-between items-center gap-8 grayscale hover:grayscale-0 transition-all duration-300">
               <div className="flex items-center gap-2 font-label-mono text-label-mono uppercase text-on-surface-variant hover:text-primary transition-colors">
@@ -190,12 +268,12 @@ function App() {
               </div>
             </div>
           </div>
-        </section>
+        </motion.section>
 
         {/* About, Experience & Education Section */}
         <motion.section 
           id="about" 
-          className="py-section-gap px-margin-mobile md:px-gutter max-w-container-max mx-auto"
+          className="py-section-gap px-margin-mobile md:px-gutter max-w-container-max mx-auto overflow-hidden"
           {...fadeInUp}
         >
           <div className="mb-16">
@@ -204,9 +282,15 @@ function App() {
             <div className="w-16 h-1 bg-primary mt-4"></div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-gutter overflow-hidden">
             {/* Bio and Tech Skills */}
-            <div className="lg:col-span-6 space-y-8">
+            <motion.div 
+              className="lg:col-span-6 space-y-8"
+              variants={slideInLeft}
+              initial="initial"
+              whileInView="whileInView"
+              viewport={{ once: true, margin: "-100px" }}
+            >
               <p className="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
                 As a developer, I thrive on turning complex problems into elegant, robust digital solutions. With solid training and hands-on experience in full-stack architectures, I am dedicated to creating clean, performant codebases and engaging user experiences.
               </p>
@@ -214,30 +298,45 @@ function App() {
                 <h3 className="font-headline-md text-headline-md text-on-surface mb-4">Core Competencies</h3>
                 <div className="flex flex-wrap gap-2">
                   {['React', 'Next.js', 'Node.js', 'Express.js', 'MongoDB', 'PostgreSQL', 'Tailwind CSS', 'Git', 'Vercel'].map((skill, index) => (
-                    <span key={index} className="px-4 py-2 bg-surface-container-high border border-outline-variant font-label-mono text-caption text-primary uppercase font-bold rounded-lg hover:border-primary transition-colors">
+                    <motion.span 
+                      key={index} 
+                      className="px-4 py-2 bg-surface-container-high border border-outline-variant font-label-mono text-caption text-primary uppercase font-bold rounded-lg hover:border-primary hover:scale-105 transition-all cursor-pointer"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
                       {skill}
-                    </span>
+                    </motion.span>
                   ))}
                 </div>
               </div>
-            </div>
+            </motion.div>
 
             {/* Experience & Education Timelines */}
-            <div className="lg:col-span-6 space-y-10">
+            <motion.div 
+              className="lg:col-span-6 space-y-10"
+              variants={slideInRight}
+              initial="initial"
+              whileInView="whileInView"
+              viewport={{ once: true, margin: "-100px" }}
+            >
               {/* Experience */}
               <div>
                 <h3 className="font-headline-md text-[20px] font-bold text-on-surface mb-6 flex items-center gap-2">
                   <span className="material-symbols-outlined text-primary">work</span> Work Experience
                 </h3>
                 <div className="border-l-2 border-outline-variant pl-6 space-y-6">
-                  <div className="relative">
-                    <div className="absolute w-3.5 h-3.5 bg-background border-2 border-primary rounded-full -left-[31px] top-1.5"></div>
+                  <motion.div 
+                    className="relative group"
+                    whileHover={{ x: 10 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                  >
+                    <div className="absolute w-3.5 h-3.5 bg-background border-2 border-primary rounded-full -left-[31px] top-1.5 group-hover:scale-150 transition-transform"></div>
                     <h4 className="font-headline-md text-[18px] text-on-surface font-semibold">Web Developer</h4>
                     <div className="font-label-mono text-caption text-primary uppercase font-bold mb-2">MEPROTECH | March 2026 – Present</div>
                     <p className="font-body-md text-body-md text-on-surface-variant leading-relaxed">
                       Leading implementation of scalable backend systems, database migrations, and responsive modern user interfaces.
                     </p>
-                  </div>
+                  </motion.div>
                 </div>
               </div>
 
@@ -247,26 +346,34 @@ function App() {
                   <span className="material-symbols-outlined text-primary">school</span> Education & Training
                 </h3>
                 <div className="border-l-2 border-outline-variant pl-6 space-y-6">
-                  <div className="relative">
-                    <div className="absolute w-3.5 h-3.5 bg-background border-2 border-primary rounded-full -left-[31px] top-1.5"></div>
+                  <motion.div 
+                    className="relative group"
+                    whileHover={{ x: 10 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                  >
+                    <div className="absolute w-3.5 h-3.5 bg-background border-2 border-primary rounded-full -left-[31px] top-1.5 group-hover:scale-150 transition-transform"></div>
                     <h4 className="font-headline-md text-[18px] text-on-surface font-semibold">B.Com Honours</h4>
                     <div className="font-label-mono text-caption text-on-surface-variant uppercase font-bold mb-1">Sir K.P. College of Commerce| VNSGU | 2021–2024</div>
-                  </div>
-                  <div className="relative">
-                    <div className="absolute w-3.5 h-3.5 bg-background border-2 border-primary rounded-full -left-[31px] top-1.5"></div>
+                  </motion.div>
+                  <motion.div 
+                    className="relative group"
+                    whileHover={{ x: 10 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                  >
+                    <div className="absolute w-3.5 h-3.5 bg-background border-2 border-primary rounded-full -left-[31px] top-1.5 group-hover:scale-150 transition-transform"></div>
                     <h4 className="font-headline-md text-[18px] text-on-surface font-semibold">Full Stack Development Course</h4>
                     <div className="font-label-mono text-caption text-on-surface-variant uppercase font-bold">Skywin IT Academy</div>
-                  </div>
+                  </motion.div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </motion.section>
 
         {/* Featured Projects */}
         <motion.section 
           id="projects" 
-          className="py-section-gap px-margin-mobile md:px-gutter max-w-container-max mx-auto"
+          className="py-section-gap px-margin-mobile md:px-gutter max-w-container-max mx-auto overflow-hidden"
           {...fadeInUp}
         >
           <div className="mb-16">
@@ -285,13 +392,13 @@ function App() {
             {/* Project 1: Quickshow - Movie Ticket Booking Platform (md:col-span-7) */}
             <motion.div 
               className="lg:col-span-7 border border-outline-variant bg-surface-container-lowest group hover:border-primary transition-all duration-300 overflow-hidden flex flex-col rounded-xl"
-              variants={fadeInUp}
+              variants={zoomIn}
             >
               <div className="h-72 md:h-96 relative overflow-hidden bg-zinc-950">
                 <img 
                   src="/quickshow.jpg" 
                   alt="Quickshow Movie Platform" 
-                  className="w-full h-full object-cover opacity-60 group-hover:scale-105 group-hover:opacity-80 transition-all duration-500"
+                  className="w-full h-full object-cover opacity-60 group-hover:scale-110 group-hover:opacity-90 transition-all duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent opacity-85"></div>
                 <div className="absolute top-4 left-4 flex flex-wrap gap-2 z-20">
@@ -302,7 +409,7 @@ function App() {
                   ))}
                 </div>
               </div>
-              <div className="p-8 md:p-10 flex-grow flex flex-col justify-between">
+              <div className="p-8 md:p-10 flex-grow flex flex-col justify-between relative z-10 bg-surface-container-lowest">
                 <div>
                   <div className="flex justify-between items-start mb-4">
                     <h3 className="font-headline-md text-headline-md text-on-surface">Quickshow — Movie Booking</h3>
@@ -323,14 +430,14 @@ function App() {
 
             {/* Project 2: Vivid - Anime streaming platform (md:col-span-5) */}
             <motion.div 
-              className="lg:col-span-5 border border-outline-variant bg-surface-container-lowest group hover:border-primary transition-all duration-300 overflow-hidden flex flex-col rounded-xl"
-              variants={fadeInUp}
+              className="lg:col-span-5 border border-outline-variant bg-surface-container-lowest group hover:border-primary transition-all duration-300 overflow-hidden flex flex-col rounded-xl mt-12 lg:mt-24"
+              variants={zoomIn}
             >
               <div className="h-72 md:h-96 relative overflow-hidden bg-zinc-950">
                 <img 
                   src="/vivid.png" 
                   alt="Vivid Anime Streaming" 
-                  className="w-full h-full object-cover opacity-65 group-hover:scale-105 group-hover:opacity-85 transition-all duration-500"
+                  className="w-full h-full object-cover opacity-65 group-hover:scale-110 group-hover:opacity-90 transition-all duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent opacity-85"></div>
                 <div className="absolute top-4 left-4 flex flex-wrap gap-2 z-20">
@@ -341,7 +448,7 @@ function App() {
                   ))}
                 </div>
               </div>
-              <div className="p-8 md:p-10 flex-grow flex flex-col justify-between">
+              <div className="p-8 md:p-10 flex-grow flex flex-col justify-between relative z-10 bg-surface-container-lowest">
                 <div>
                   <div className="flex justify-between items-start mb-4">
                     <h3 className="font-headline-md text-[20px] font-bold text-on-surface">Vivid — Anime Streaming</h3>
@@ -366,11 +473,14 @@ function App() {
         <motion.section 
           id="contact" 
           className="py-section-gap bg-surface-container border-y border-outline-variant"
-          {...fadeInUp}
+          variants={fadeInUp}
+          initial="initial"
+          whileInView="whileInView"
+          viewport={{ once: true, margin: "-100px" }}
         >
           <div className="max-w-container-max mx-auto px-margin-mobile md:px-gutter">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <div>
+              <motion.div variants={slideInLeft}>
                 <h2 className="font-headline-xl text-headline-xl text-on-surface mb-8 tracking-tighter leading-none">
                   Let's build something <br className="hidden md:block" /> remarkable together.
                 </h2>
@@ -378,17 +488,20 @@ function App() {
                   Currently accepting new projects and full-time opportunities. If you have a vision, I have the stack to build it.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-6 font-label-mono text-label-mono text-primary font-bold">
-                  <a href="mailto:neelpatel80358@gmail.com" className="flex items-center gap-2 hover:text-on-surface-variant transition-colors">
+                  <a href="mailto:neelpatel80358@gmail.com" className="flex items-center gap-2 hover:text-on-surface-variant hover:translate-x-2 transition-all">
                     <span className="material-symbols-outlined">mail</span> neelpatel80358@gmail.com
                   </a>
-                  <a href="https://www.linkedin.com/in/neel-patel-569b32233/" target="_blank" rel="noreferrer" className="flex items-center gap-2 hover:text-on-surface-variant transition-colors">
+                  <a href="https://www.linkedin.com/in/neel-patel-569b32233/" target="_blank" rel="noreferrer" className="flex items-center gap-2 hover:text-on-surface-variant hover:translate-x-2 transition-all">
                     <span className="material-symbols-outlined">link</span> LinkedIn
                   </a>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Simple Contact Form */}
-              <div className="bg-surface-container-lowest p-8 rounded-xl border border-outline-variant shadow-sm">
+              <motion.div 
+                className="bg-surface-container-lowest p-8 rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow"
+                variants={slideInRight}
+              >
                 <h3 className="font-headline-md text-headline-md text-on-surface mb-6">Send a Message</h3>
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
@@ -427,17 +540,26 @@ function App() {
                       placeholder="Hello, I'd like to collaborate..."
                     ></textarea>
                   </div>
-                  <button type="submit" className="w-full bg-primary text-on-primary px-8 py-4 font-label-mono text-label-mono uppercase font-bold hover:bg-on-surface-variant transition-all active:scale-95 rounded-lg flex items-center justify-center gap-3">
+                  <motion.button 
+                    type="submit" 
+                    className="w-full bg-primary text-on-primary px-8 py-4 font-label-mono text-label-mono uppercase font-bold hover:bg-on-surface-variant transition-all active:scale-95 rounded-lg flex items-center justify-center gap-3"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
                     Start a Conversation
                     <span className="material-symbols-outlined">send</span>
-                  </button>
+                  </motion.button>
                   {formSubmitted && (
-                    <div className="mt-4 p-3 bg-surface-container border border-green-500/50 text-green-700 font-label-mono text-caption rounded-lg text-center font-bold">
+                    <motion.div 
+                      className="mt-4 p-3 bg-surface-container border border-green-500/50 text-green-700 font-label-mono text-caption rounded-lg text-center font-bold"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                    >
                       Message sent successfully!
-                    </div>
+                    </motion.div>
                   )}
                 </form>
-              </div>
+              </motion.div>
             </div>
           </div>
         </motion.section>
