@@ -135,7 +135,7 @@ function App() {
                 </div>
                 <div className="flex gap-4">
                   <span className="text-on-surface-variant opacity-30">03</span>
-                  <p className="pl-4">role: <span className="text-on-surface font-medium">"Full Stack Architect"</span>,</p>
+                  <p className="pl-4">role: <span className="text-on-surface font-medium">"Full Stack Developer"</span>,</p>
                 </div>
                 <div className="flex gap-4">
                   <span className="text-on-surface-variant opacity-30">04</span>
