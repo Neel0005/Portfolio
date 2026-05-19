@@ -8,6 +8,28 @@ function App() {
   const [activeSection, setActiveSection] = useState('home');
   const [isMobile, setIsMobile] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(() => {
+    // Check if loader has been shown in the current browser session
+    try {
+      const hasShown = sessionStorage.getItem('portfolioLoaderShown');
+      return hasShown === 'true' ? false : true;
+    } catch (e) {
+      return true;
+    }
+  });
+
+  // Loading Screen Timer
+  useEffect(() => {
+    if (!isLoading) return;
+    
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+      try {
+        sessionStorage.setItem('portfolioLoaderShown', 'true');
+      } catch (e) {}
+    }, 3200); // 3.2 seconds lets the 'Generating' letter animation cycle perfectly
+    return () => clearTimeout(timer);
+  }, [isLoading]);
 
   // Detect mobile screen width for performance and layout tuning
   useEffect(() => {
@@ -117,7 +139,38 @@ function App() {
   };
 
   return (
-    <div className="bg-background selection:bg-primary selection:text-on-primary font-body-md text-on-surface min-h-screen relative">
+    <>
+      {/* Fullscreen Loading Screen */}
+      <AnimatePresence>
+        {isLoading && (
+          <motion.div
+            key="loader"
+            initial={{ opacity: 1 }}
+            exit={{ 
+              opacity: 0, 
+              y: -30,
+              transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } 
+            }}
+            className="loader-container-fullscreen"
+          >
+            <div className="loader-wrapper">
+              <span className="loader-letter">L</span>
+              <span className="loader-letter">o</span>
+              <span className="loader-letter">a</span>
+              <span className="loader-letter">d</span>
+              <span className="loader-letter">i</span>
+              <span className="loader-letter">n</span>
+              <span className="loader-letter">g</span>
+              <span className="loader-letter">.</span>
+              <span className="loader-letter">.</span>
+              <span className="loader-letter">.</span>
+              <div className="loader"></div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <div className="bg-background selection:bg-primary selection:text-on-primary font-body-md text-on-surface min-h-screen relative">
       {/* Scroll Progress Bar */}
       <motion.div
         className="fixed top-0 left-0 right-0 h-[4px] bg-primary origin-left z-[60]"
@@ -254,7 +307,7 @@ function App() {
             <motion.div 
               className="flex flex-col gap-6 max-w-2xl"
               initial={{ opacity: 0, y: isMobile ? 20 : 60 }}
-              animate={{ opacity: 1, y: 0 }}
+              animate={isLoading ? { opacity: 0, y: isMobile ? 20 : 60 } : { opacity: 1, y: 0 }}
               transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
               style={{ y: isMobile ? 0 : heroTextY, opacity: isMobile ? 1 : heroOpacity }}
             >
@@ -275,7 +328,7 @@ function App() {
                 <a href="#projects" className="bg-primary text-on-primary px-6 py-3.5 md:px-8 md:py-4 font-label-mono text-caption md:text-label-mono uppercase font-bold hover:bg-on-surface-variant transition-all active:scale-95 rounded-lg inline-block text-center">
                   View My Work
                 </a>
-                <a href="#contact" className="border border-outline text-on-surface px-6 py-3.5 md:px-8 md:py-4 font-label-mono text-caption md:text-label-mono uppercase font-bold hover:border-primary transition-all active:scale-95 rounded-lg inline-block text-center">
+                <a href="#contact" className="border border-outline text-on-surface px-6 py-3.5 md:px-8 md:py-4 font-label-mono text-caption md:text-label-mono uppercase font-bold hover:text-yellow-500 hover:border-yellow-500 hover:bg-transparent transition-all active:scale-95 rounded-lg inline-block text-center">
                   Contact Me
                 </a>
               </div>
@@ -285,7 +338,7 @@ function App() {
             <motion.div 
               className="w-full lg:w-[460px] border border-outline-variant bg-surface-container rounded-xl overflow-hidden shadow-sm flex-shrink-0"
               initial={{ opacity: 0, scale: 0.9, rotate: isMobile ? 0 : -5 }}
-              animate={{ opacity: 1, scale: 1, rotate: 0 }}
+              animate={isLoading ? { opacity: 0, scale: 0.9, rotate: isMobile ? 0 : -5 } : { opacity: 1, scale: 1, rotate: 0 }}
               transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
               style={{ y: isMobile ? 0 : terminalY, rotate: isMobile ? 0 : terminalRotate }}
             >
@@ -683,6 +736,7 @@ function App() {
         </div>
       </footer>
     </div>
+    </>
   );
 }
 
