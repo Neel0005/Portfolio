@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
 import Lenis from 'lenis';
+import { ContainerScroll } from '@/components/ui/container-scroll-animation';
 
 function App() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
@@ -423,6 +424,99 @@ function App() {
             </div>
           </div>
         </motion.section>
+
+        {/* Container Scroll Animation Section */}
+        <section className="relative overflow-hidden">
+          <ContainerScroll
+            titleComponent={
+              <>
+                <h1 className="text-4xl font-semibold">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-900 via-green-800 to-emerald-950 dark:from-emerald-600 dark:via-green-500 dark:to-emerald-700 drop-shadow-[0_2px_8px_rgba(4,120,87,0.3)]">
+                    Crafting digital experiences
+                  </span>
+                  <br />
+                  <span className="text-4xl md:text-[6rem] font-bold mt-1 leading-none text-transparent bg-clip-text bg-gradient-to-r from-emerald-800 via-green-700 to-teal-900 dark:from-emerald-500 dark:via-green-400 dark:to-teal-600 drop-shadow-[0_4px_12px_rgba(6,95,70,0.4)]">
+                    with code & creativity
+                  </span>
+                </h1>
+              </>
+            }
+          >
+            <div className="h-full w-full bg-gradient-to-br from-zinc-950 via-zinc-900 to-black p-6 md:p-10 flex flex-col justify-center gap-4 md:gap-6 overflow-y-auto">
+              {/* Terminal Header */}
+              <div className="flex items-center gap-2 mb-2">
+                <div className="flex gap-1.5">
+                  <div className="w-2.5 h-2.5 rounded-full bg-red-500/80"></div>
+                  <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></div>
+                  <div className="w-2.5 h-2.5 rounded-full bg-green-500/80"></div>
+                </div>
+                <span className="font-label-mono text-[10px] md:text-xs text-zinc-500 ml-2">~/neel-patel — zsh</span>
+              </div>
+
+              {/* Name & Role */}
+              <div>
+                <p className="font-label-mono text-xs md:text-sm text-emerald-400 mb-1"><span className="text-zinc-500">$</span> whoami</p>
+                <h2 className="font-headline-lg text-2xl md:text-4xl font-bold text-white tracking-tight">
+                  Neel Patel
+                </h2>
+                <p className="font-label-mono text-xs md:text-sm text-emerald-400 mt-1">
+                  Full Stack Developer <span className="text-zinc-500">|</span> MERN Stack
+                </p>
+              </div>
+
+              {/* Bio */}
+              <div>
+                <p className="font-label-mono text-xs md:text-sm text-zinc-500 mb-1"><span className="text-zinc-500">$</span> echo $bio</p>
+                <p className="font-body-md text-xs md:text-sm text-zinc-300 leading-relaxed">
+                  I build clean, scalable web apps — from landing pages to full-stack products.
+                  Focused on performance, accessibility, and high-quality code architecture.
+                  Based in Surat, India.
+                </p>
+              </div>
+
+              {/* Skills Grid */}
+              <div>
+                <p className="font-label-mono text-xs md:text-sm text-zinc-500 mb-2"><span className="text-zinc-500">$</span> skills --list</p>
+                <div className="flex flex-wrap gap-1.5 md:gap-2">
+                  {['React', 'Next.js', 'Node.js', 'Express', 'MongoDB', 'Tailwind', 'PostgreSQL', 'Git', 'Vercel'].map((skill, i) => (
+                    <span
+                      key={i}
+                      className="px-2.5 py-1 md:px-3 md:py-1 bg-zinc-800/80 border border-zinc-700/60 font-label-mono text-[10px] md:text-xs text-emerald-300/90 rounded-md"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Contact */}
+              <div className="pt-1 border-t border-zinc-800/60">
+                <p className="font-label-mono text-[10px] md:text-xs text-zinc-500">
+                  <span className="text-zinc-500">$</span> cat contact.txt
+                </p>
+                <div className="flex flex-wrap gap-x-6 gap-y-1 mt-1 font-label-mono text-[10px] md:text-xs text-zinc-400">
+                  <span className="flex items-center gap-1.5">
+                    <span className="material-symbols-outlined text-[12px] md:text-[14px] text-emerald-400" style={{ fontVariationSettings: "'opsz' 20" }}>mail</span>
+                    neelpatel80358@gmail.com
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <span className="material-symbols-outlined text-[12px] md:text-[14px] text-emerald-400" style={{ fontVariationSettings: "'opsz' 20" }}>link</span>
+                    linkedin.com/in/neel-patel
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <span className="material-symbols-outlined text-[12px] md:text-[14px] text-emerald-400" style={{ fontVariationSettings: "'opsz' 20" }}>code</span>
+                    github.com/neelpatel80358
+                  </span>
+                </div>
+              </div>
+
+              {/* Cursor blink */}
+              <p className="font-label-mono text-xs md:text-sm text-zinc-600 mt-1">
+                <span className="text-zinc-500">$</span> <span className="terminal-cursor text-emerald-400">ready to collaborate</span>
+              </p>
+            </div>
+          </ContainerScroll>
+        </section>
 
         {/* About, Experience & Education Section */}
         <motion.section 
