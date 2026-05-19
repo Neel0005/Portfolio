@@ -62,14 +62,14 @@
   --spacing-element-gap: 16px;
   --spacing-margin-mobile: 20px;
 
-  --font-body-lg: "Geist";
-  --font-headline-md: "Geist";
-  --font-headline-lg-mobile: "Geist";
-  --font-label-mono: "JetBrains Mono";
-  --font-body-md: "Geist";
-  --font-headline-lg: "Geist";
-  --font-headline-xl: "Geist";
-  --font-caption: "Geist";
+  --font-body-lg: "Inter", system-ui, -apple-system, sans-serif;
+  --font-headline-md: "Inter", system-ui, -apple-system, sans-serif;
+  --font-headline-lg-mobile: "Inter", system-ui, -apple-system, sans-serif;
+  --font-label-mono: "JetBrains Mono", monospace;
+  --font-body-md: "Inter", system-ui, -apple-system, sans-serif;
+  --font-headline-lg: "Inter", system-ui, -apple-system, sans-serif;
+  --font-headline-xl: "Inter", system-ui, -apple-system, sans-serif;
+  --font-caption: "Inter", system-ui, -apple-system, sans-serif;
 
   --text-body-lg: 18px;
   --text-body-lg--line-height: 1.6;

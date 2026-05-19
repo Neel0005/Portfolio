@@ -1,14 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
 import Lenis from 'lenis';
 
 function App() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+  const [isMobile, setIsMobile] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Smooth Scrolling Setup with Lenis
+  // Detect mobile screen width for performance and layout tuning
   useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Smooth Scrolling Setup with Lenis (only on desktop!)
+  useEffect(() => {
+    if (isMobile) return;
+
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -30,7 +44,7 @@ function App() {
     return () => {
       lenis.destroy();
     };
-  }, []);
+  }, [isMobile]);
 
   // Scroll Progress Bar
   const { scrollYProgress } = useScroll();
@@ -64,42 +78,42 @@ function App() {
 
   // Advanced Framer Motion Animation Presets
   const fadeInUp = {
-    initial: { opacity: 0, y: 60, scale: 0.95 },
+    initial: { opacity: 0, y: isMobile ? 20 : 60, scale: isMobile ? 0.98 : 0.95 },
     whileInView: { opacity: 1, y: 0, scale: 1 },
-    viewport: { once: true, margin: "-100px" },
-    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] }
+    viewport: { once: true, margin: isMobile ? "-20px" : "-100px" },
+    transition: { duration: isMobile ? 0.5 : 0.8, ease: [0.16, 1, 0.3, 1] }
   };
 
   const slideInLeft = {
-    initial: { opacity: 0, x: -80 },
+    initial: { opacity: 0, x: isMobile ? -15 : -80 },
     whileInView: { opacity: 1, x: 0 },
-    viewport: { once: true, margin: "-100px" },
-    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] }
+    viewport: { once: true, margin: isMobile ? "-20px" : "-100px" },
+    transition: { duration: isMobile ? 0.5 : 0.8, ease: [0.16, 1, 0.3, 1] }
   };
 
   const slideInRight = {
-    initial: { opacity: 0, x: 80 },
+    initial: { opacity: 0, x: isMobile ? 15 : 80 },
     whileInView: { opacity: 1, x: 0 },
-    viewport: { once: true, margin: "-100px" },
-    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] }
+    viewport: { once: true, margin: isMobile ? "-20px" : "-100px" },
+    transition: { duration: isMobile ? 0.5 : 0.8, ease: [0.16, 1, 0.3, 1] }
   };
 
   const zoomIn = {
-    initial: { opacity: 0, scale: 0.8 },
+    initial: { opacity: 0, scale: isMobile ? 0.95 : 0.8 },
     whileInView: { opacity: 1, scale: 1 },
-    viewport: { once: true, margin: "-100px" },
-    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] }
+    viewport: { once: true, margin: isMobile ? "-20px" : "-100px" },
+    transition: { duration: isMobile ? 0.5 : 0.8, ease: [0.16, 1, 0.3, 1] }
   };
 
   const staggerContainer = {
     initial: {},
     whileInView: {
       transition: {
-        staggerChildren: 0.2,
+        staggerChildren: isMobile ? 0.1 : 0.2,
         delayChildren: 0.1
       }
     },
-    viewport: { once: true, margin: "-100px" }
+    viewport: { once: true, margin: isMobile ? "-20px" : "-100px" }
   };
 
   return (
@@ -116,6 +130,8 @@ function App() {
           <a href="/" className="font-headline-lg text-headline-lg-mobile font-bold text-primary tracking-tighter hover:opacity-80 transition-opacity">
             Neel Patel
           </a>
+          
+          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
             {['home', 'about', 'projects', 'contact'].map((section) => {
               const isActive = activeSection === section;
@@ -138,43 +154,128 @@ function App() {
               );
             })}
           </div>
-          <a href="#contact" onClick={() => setActiveSection('contact')} className="bg-primary text-on-primary px-6 py-2 font-label-mono text-label-mono uppercase font-bold transition-all duration-200 hover:bg-on-surface-variant active:scale-95 rounded-lg inline-block text-center">
-            Get in touch
-          </a>
+          
+          <div className="flex items-center gap-4">
+            {/* Get in touch button - responsive display */}
+            <a href="#contact" onClick={() => setActiveSection('contact')} className="hidden sm:inline-block bg-primary text-on-primary px-6 py-2 font-label-mono text-label-mono uppercase font-bold transition-all duration-200 hover:bg-on-surface-variant active:scale-95 rounded-lg text-center">
+              Get in touch
+            </a>
+
+            {/* Mobile Hamburger Toggle */}
+            <button 
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="flex md:hidden items-center justify-center p-2 text-on-surface hover:text-primary transition-colors focus:outline-none z-50 cursor-pointer"
+              aria-label="Toggle Menu"
+            >
+              <span className="material-symbols-outlined text-[28px] select-none">
+                {mobileMenuOpen ? 'close' : 'menu'}
+              </span>
+            </button>
+          </div>
         </nav>
       </header>
 
+      {/* Mobile Navigation Drawer */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <>
+            {/* Backdrop Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMobileMenuOpen(false)}
+              className="fixed inset-0 bg-black/40 backdrop-blur-md z-40 md:hidden"
+              transition={{ duration: 0.25 }}
+            />
+
+            {/* Sliding Panel */}
+            <motion.div
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 26, stiffness: 220 }}
+              className="fixed top-0 right-0 bottom-0 w-[280px] sm:w-[320px] bg-surface-container-lowest border-l border-outline-variant z-40 p-8 pt-28 flex flex-col justify-between shadow-2xl md:hidden"
+            >
+              <div className="flex flex-col gap-8">
+                <span className="font-label-mono text-caption text-primary uppercase tracking-[0.2em] block mb-2 border-b border-outline-variant pb-2">Navigation</span>
+                <div className="flex flex-col gap-6">
+                  {['home', 'about', 'projects', 'contact'].map((section, idx) => {
+                    const isActive = activeSection === section;
+                    return (
+                      <motion.a
+                        key={section}
+                        initial={{ opacity: 0, x: 15 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.08 + idx * 0.04 }}
+                        className={`font-headline-md text-[20px] font-bold uppercase transition-colors hover:text-primary ${isActive ? 'text-primary' : 'text-on-surface-variant'}`}
+                        href={`#${section}`}
+                        onClick={() => {
+                          setActiveSection(section);
+                          setMobileMenuOpen(false);
+                        }}
+                      >
+                        {section}
+                      </motion.a>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="space-y-6">
+                <a 
+                  href="#contact" 
+                  onClick={() => {
+                    setActiveSection('contact');
+                    setMobileMenuOpen(false);
+                  }} 
+                  className="w-full bg-primary text-on-primary px-6 py-3.5 font-label-mono text-caption uppercase font-bold transition-all duration-200 hover:bg-on-surface-variant active:scale-95 rounded-lg flex items-center justify-center gap-2 text-center"
+                >
+                  Get in touch
+                  <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+                </a>
+                
+                <div className="flex justify-center gap-6 pt-4 border-t border-outline-variant font-label-mono text-caption">
+                  <a className="text-on-surface-variant hover:text-primary transition-colors" href="https://github.com/neelpatel80358" target="_blank" rel="noreferrer">GitHub</a>
+                  <a className="text-on-surface-variant hover:text-primary transition-colors" href="https://www.linkedin.com/in/neel-patel-569b32233/" target="_blank" rel="noreferrer">LinkedIn</a>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
       <main>
         {/* Hero Section */}
-        <section id="home" className="pt-40 pb-24 px-margin-mobile md:px-gutter max-w-container-max mx-auto relative overflow-hidden">
+        <section id="home" className="pt-32 pb-16 md:pt-40 md:pb-24 px-margin-mobile md:px-gutter max-w-container-max mx-auto relative overflow-hidden">
           <div className="absolute inset-0 grid-pattern opacity-30 -z-10"></div>
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-12">
             
             <motion.div 
               className="flex flex-col gap-6 max-w-2xl"
-              initial={{ opacity: 0, y: 60 }}
+              initial={{ opacity: 0, y: isMobile ? 20 : 60 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-              style={{ y: heroTextY, opacity: heroOpacity }}
+              style={{ y: isMobile ? 0 : heroTextY, opacity: isMobile ? 1 : heroOpacity }}
             >
               <div className="flex items-center gap-3">
                 <span className="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
                 <span className="font-label-mono text-label-mono text-on-surface-variant uppercase tracking-widest">Available for hire</span>
               </div>
-              <h1 className="font-headline-xl text-[48px] md:text-headline-xl text-on-surface tracking-tighter leading-none">
+              <h1 className="font-headline-xl text-[36px] sm:text-[44px] md:text-headline-xl text-on-surface tracking-tighter leading-none">
                 Neel Patel
               </h1>
-              <p className="font-headline-md text-headline-md text-primary opacity-90 leading-tight">
+              <p className="font-headline-md text-[20px] md:text-headline-md text-primary opacity-90 leading-tight">
                 Full Stack Developer | MERN Stack | React &amp; Next.js
               </p>
-              <p className="font-body-lg text-body-lg text-on-surface-variant max-w-xl">
+              <p className="font-body-lg text-body-md md:text-body-lg text-on-surface-variant max-w-xl">
                 I build clean, scalable web apps — from landing pages to full-stack products. Focused on performance, accessibility, and high-quality code architecture. Based in Surat, India.
               </p>
-              <div className="flex flex-wrap gap-4 pt-4">
-                <a href="#projects" className="bg-primary text-on-primary px-8 py-4 font-label-mono text-label-mono uppercase font-bold hover:bg-on-surface-variant transition-all active:scale-95 rounded-lg inline-block">
+              <div className="flex flex-wrap gap-4 pt-2 md:pt-4">
+                <a href="#projects" className="bg-primary text-on-primary px-6 py-3.5 md:px-8 md:py-4 font-label-mono text-caption md:text-label-mono uppercase font-bold hover:bg-on-surface-variant transition-all active:scale-95 rounded-lg inline-block text-center">
                   View My Work
                 </a>
-                <a href="#contact" className="border border-outline text-on-surface px-8 py-4 font-label-mono text-label-mono uppercase font-bold hover:border-primary transition-all active:scale-95 rounded-lg inline-block">
+                <a href="#contact" className="border border-outline text-on-surface px-6 py-3.5 md:px-8 md:py-4 font-label-mono text-caption md:text-label-mono uppercase font-bold hover:border-primary transition-all active:scale-95 rounded-lg inline-block text-center">
                   Contact Me
                 </a>
               </div>
@@ -183,10 +284,10 @@ function App() {
             {/* Terminal Component */}
             <motion.div 
               className="w-full lg:w-[460px] border border-outline-variant bg-surface-container rounded-xl overflow-hidden shadow-sm flex-shrink-0"
-              initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
+              initial={{ opacity: 0, scale: 0.9, rotate: isMobile ? 0 : -5 }}
               animate={{ opacity: 1, scale: 1, rotate: 0 }}
               transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              style={{ y: terminalY, rotate: terminalRotate }}
+              style={{ y: isMobile ? 0 : terminalY, rotate: isMobile ? 0 : terminalRotate }}
             >
               <div className="bg-surface-container-high px-4 py-2 flex items-center justify-between border-b border-outline-variant">
                 <div className="flex gap-2">
@@ -273,7 +374,7 @@ function App() {
         {/* About, Experience & Education Section */}
         <motion.section 
           id="about" 
-          className="py-section-gap px-margin-mobile md:px-gutter max-w-container-max mx-auto overflow-hidden"
+          className="py-16 md:py-32 px-margin-mobile md:px-gutter max-w-container-max mx-auto overflow-hidden"
           {...fadeInUp}
         >
           <div className="mb-16">
@@ -373,7 +474,7 @@ function App() {
         {/* Featured Projects */}
         <motion.section 
           id="projects" 
-          className="py-section-gap px-margin-mobile md:px-gutter max-w-container-max mx-auto overflow-hidden"
+          className="py-16 md:py-32 px-margin-mobile md:px-gutter max-w-container-max mx-auto overflow-hidden"
           {...fadeInUp}
         >
           <div className="mb-16">
@@ -409,7 +510,7 @@ function App() {
                   ))}
                 </div>
               </div>
-              <div className="p-8 md:p-10 flex-grow flex flex-col justify-between relative z-10 bg-surface-container-lowest">
+              <div className="p-5 sm:p-8 md:p-10 flex-grow flex flex-col justify-between relative z-10 bg-surface-container-lowest">
                 <div>
                   <div className="flex justify-between items-start mb-4">
                     <h3 className="font-headline-md text-headline-md text-on-surface">Quickshow — Movie Booking</h3>
@@ -430,7 +531,7 @@ function App() {
 
             {/* Project 2: Vivid - Anime streaming platform (md:col-span-5) */}
             <motion.div 
-              className="lg:col-span-5 border border-outline-variant bg-surface-container-lowest group hover:border-primary transition-all duration-300 overflow-hidden flex flex-col rounded-xl mt-12 lg:mt-24"
+              className="lg:col-span-5 border border-outline-variant bg-surface-container-lowest group hover:border-primary transition-all duration-300 overflow-hidden flex flex-col rounded-xl mt-0 lg:mt-24"
               variants={zoomIn}
             >
               <div className="h-72 md:h-96 relative overflow-hidden bg-zinc-950">
@@ -448,7 +549,7 @@ function App() {
                   ))}
                 </div>
               </div>
-              <div className="p-8 md:p-10 flex-grow flex flex-col justify-between relative z-10 bg-surface-container-lowest">
+              <div className="p-5 sm:p-8 md:p-10 flex-grow flex flex-col justify-between relative z-10 bg-surface-container-lowest">
                 <div>
                   <div className="flex justify-between items-start mb-4">
                     <h3 className="font-headline-md text-[20px] font-bold text-on-surface">Vivid — Anime Streaming</h3>
@@ -472,11 +573,11 @@ function App() {
         {/* Contact Section */}
         <motion.section 
           id="contact" 
-          className="py-section-gap bg-surface-container border-y border-outline-variant"
+          className="py-16 md:py-32 bg-surface-container border-y border-outline-variant"
           variants={fadeInUp}
           initial="initial"
           whileInView="whileInView"
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, margin: isMobile ? "-20px" : "-100px" }}
         >
           <div className="max-w-container-max mx-auto px-margin-mobile md:px-gutter">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -499,7 +600,7 @@ function App() {
 
               {/* Simple Contact Form */}
               <motion.div 
-                className="bg-surface-container-lowest p-8 rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow"
+                className="bg-surface-container-lowest p-5 sm:p-8 rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow"
                 variants={slideInRight}
               >
                 <h3 className="font-headline-md text-headline-md text-on-surface mb-6">Send a Message</h3>
