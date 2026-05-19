@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
 import Lenis from 'lenis';
 import { ContainerScroll } from '@/components/ui/container-scroll-animation';
+import { TextScramble } from '@/components/ui/text-scramble';
 
 function App() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
@@ -196,7 +197,7 @@ function App() {
                   href={`#${section}`}
                   onClick={() => setActiveSection(section)}
                 >
-                  {section}
+                  <TextScramble text={section.charAt(0).toUpperCase() + section.slice(1)} />
                   {isActive && (
                     <motion.div 
                       layoutId="activeUnderline"
@@ -211,8 +212,8 @@ function App() {
           
           <div className="flex items-center gap-4">
             {/* Get in touch button - responsive display */}
-            <a href="#contact" onClick={() => setActiveSection('contact')} className="hidden sm:inline-block bg-primary text-on-primary px-6 py-2 font-label-mono text-label-mono uppercase font-bold transition-all duration-200 hover:bg-on-surface-variant active:scale-95 rounded-lg text-center">
-              Get in touch
+            <a href="#contact" onClick={() => setActiveSection('contact')} className="hidden sm:inline-flex items-center bg-primary text-on-primary px-6 py-2 font-label-mono text-label-mono uppercase font-bold transition-all duration-200 hover:bg-on-surface-variant active:scale-95 rounded-lg text-center">
+              <TextScramble text="Get in touch" />
             </a>
 
             {/* Mobile Hamburger Toggle */}
@@ -269,7 +270,7 @@ function App() {
                           setMobileMenuOpen(false);
                         }}
                       >
-                        {section}
+                        <TextScramble text={section.charAt(0).toUpperCase() + section.slice(1)} />
                       </motion.a>
                     );
                   })}
@@ -285,7 +286,7 @@ function App() {
                   }} 
                   className="w-full bg-primary text-on-primary px-6 py-3.5 font-label-mono text-caption uppercase font-bold transition-all duration-200 hover:bg-on-surface-variant active:scale-95 rounded-lg flex items-center justify-center gap-2 text-center"
                 >
-                  Get in touch
+                  <TextScramble text="Get in touch" />
                   <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
                 </a>
                 
@@ -326,11 +327,11 @@ function App() {
                 I build clean, scalable web apps — from landing pages to full-stack products. Focused on performance, accessibility, and high-quality code architecture. Based in Surat, India.
               </p>
               <div className="flex flex-wrap gap-4 pt-2 md:pt-4">
-                <a href="#projects" className="bg-primary text-on-primary px-6 py-3.5 md:px-8 md:py-4 font-label-mono text-caption md:text-label-mono uppercase font-bold hover:bg-on-surface-variant transition-all active:scale-95 rounded-lg inline-block text-center">
-                  View My Work
+                <a href="#projects" className="bg-primary text-on-primary px-6 py-3.5 md:px-8 md:py-4 font-label-mono text-caption md:text-label-mono uppercase font-bold hover:bg-on-surface-variant transition-all active:scale-95 rounded-lg inline-flex items-center justify-center text-center">
+                  <TextScramble text="View My Work" />
                 </a>
-                <a href="#contact" className="border border-outline text-on-surface px-6 py-3.5 md:px-8 md:py-4 font-label-mono text-caption md:text-label-mono uppercase font-bold hover:text-yellow-500 hover:border-yellow-500 hover:bg-transparent transition-all active:scale-95 rounded-lg inline-block text-center">
-                  Contact Me
+                <a href="#contact" className="border border-outline text-on-surface px-6 py-3.5 md:px-8 md:py-4 font-label-mono text-caption md:text-label-mono uppercase font-bold hover:text-yellow-500 hover:border-yellow-500 hover:bg-transparent transition-all active:scale-95 rounded-lg inline-flex items-center justify-center text-center">
+                  <TextScramble text="Contact Me" />
                 </a>
               </div>
             </motion.div>
@@ -671,7 +672,7 @@ function App() {
                   </p>
                 </div>
                 <a className="inline-flex items-center gap-3 font-label-mono text-label-mono uppercase font-bold text-primary hover:gap-5 transition-all" href="https://quickshow-xi.vercel.app/" target="_blank" rel="noreferrer">
-                  Explore Live App <span className="material-symbols-outlined" style={{ fontVariationSettings: "'wght' 600" }}>arrow_forward</span>
+                  <TextScramble text="Explore Live App" /> <span className="material-symbols-outlined" style={{ fontVariationSettings: "'wght' 600" }}>arrow_forward</span>
                 </a>
               </div>
             </motion.div>
@@ -710,7 +711,7 @@ function App() {
                   </p>
                 </div>
                 <a className="inline-flex items-center gap-3 font-label-mono text-label-mono uppercase font-bold text-primary hover:gap-5 transition-all" href="https://vivid-striming.vercel.app/" target="_blank" rel="noreferrer">
-                  Explore Live App <span className="material-symbols-outlined" style={{ fontVariationSettings: "'wght' 600" }}>arrow_forward</span>
+                  <TextScramble text="Explore Live App" /> <span className="material-symbols-outlined" style={{ fontVariationSettings: "'wght' 600" }}>arrow_forward</span>
                 </a>
               </div>
             </motion.div>
@@ -794,7 +795,7 @@ function App() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    Start a Conversation
+                    <TextScramble text="Start a Conversation" />
                     <span className="material-symbols-outlined">send</span>
                   </motion.button>
                   {formSubmitted && (
@@ -823,9 +824,9 @@ function App() {
             © 2026 Neel Patel. Built with precision.
           </div>
           <div className="flex gap-8">
-            <a className="font-label-mono text-label-mono text-on-surface-variant hover:text-primary transition-colors uppercase" href="https://www.linkedin.com/in/neel-patel-569b32233/" target="_blank" rel="noreferrer">LinkedIn</a>
-            <a className="font-label-mono text-label-mono text-on-surface-variant hover:text-primary transition-colors uppercase" href="https://github.com/neelpatel80358" target="_blank" rel="noreferrer">GitHub</a>
-            <a className="font-label-mono text-label-mono text-on-surface-variant hover:text-primary transition-colors uppercase" href="mailto:neelpatel80358@gmail.com">Email</a>
+            <a className="font-label-mono text-label-mono text-on-surface-variant hover:text-primary transition-colors uppercase" href="https://www.linkedin.com/in/neel-patel-569b32233/" target="_blank" rel="noreferrer"><TextScramble text="LinkedIn" /></a>
+            <a className="font-label-mono text-label-mono text-on-surface-variant hover:text-primary transition-colors uppercase" href="https://github.com/neelpatel80358" target="_blank" rel="noreferrer"><TextScramble text="GitHub" /></a>
+            <a className="font-label-mono text-label-mono text-on-surface-variant hover:text-primary transition-colors uppercase" href="mailto:neelpatel80358@gmail.com"><TextScramble text="Email" /></a>
           </div>
         </div>
       </footer>
