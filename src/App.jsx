@@ -170,7 +170,7 @@ function App() {
         )}
       </AnimatePresence>
 
-      <div className="bg-background selection:bg-primary selection:text-on-primary font-body-md text-on-surface min-h-screen relative">
+      <div className="bg-background selection:bg-primary selection:text-on-primary font-body-md text-on-surface min-h-screen relative overflow-x-hidden w-full">
       {/* Scroll Progress Bar */}
       <motion.div
         className="fixed top-0 left-0 right-0 h-[4px] bg-primary origin-left z-[60]"
