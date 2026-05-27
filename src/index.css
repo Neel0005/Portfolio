@@ -1,29 +1,29 @@
 @import "tailwindcss";
 
 @theme {
-  --color-surface-dim: #dbd9d9;
+  --color-surface-dim: #efebdc;
   --color-on-secondary-fixed-variant: #47473f;
-  --color-surface: #fbf9f8;
+  --color-surface: #faf6e8;
   --color-surface-container-lowest: #ffffff;
   --color-tertiary-fixed-dim: #c8c7bc;
   --color-on-tertiary-fixed: #1c1c15;
-  --color-on-primary: #ffffff;
+  --color-on-primary: #faf6e8;
   --color-primary-fixed-dim: #c8c6c5;
   --color-inverse-on-surface: #f2f0f0;
-  --color-error: #ba1a1a;
-  --color-primary: #000000;
+  --color-error: #c93b2b;
+  --color-primary: #1d253c;
   --color-surface-tint: #5f5e5e;
   --color-on-primary-fixed: #1c1b1b;
-  --color-surface-container: #efeded;
+  --color-surface-container: #eae6d5;
   --color-on-error: #ffffff;
   --color-inverse-surface: #303030;
-  --color-outline: #747878;
+  --color-outline: #1d253c;
   --color-on-secondary-container: #65655c;
   --color-secondary-fixed-dim: #c8c7bc;
-  --color-secondary-container: #e5e3d7;
-  --color-secondary-fixed: #e5e3d7;
-  --color-tertiary-fixed: #e5e3d7;
-  --color-surface-container-highest: #e4e2e2;
+  --color-secondary-container: #efebdc;
+  --color-secondary-fixed: #efebdc;
+  --color-tertiary-fixed: #efebdc;
+  --color-surface-container-highest: #e0dcca;
   --color-error-container: #ffdad6;
   --color-tertiary-container: #1c1c15;
   --color-primary-container: #1c1b1b;
@@ -31,28 +31,37 @@
   --color-on-tertiary-fixed-variant: #47473f;
   --color-on-tertiary: #ffffff;
   --color-on-secondary: #ffffff;
-  --color-on-surface: #1b1c1c;
-  --color-surface-bright: #fbf9f8;
-  --color-on-background: #1b1c1c;
-  --color-tertiary: #000000;
-  --color-background: #fbf9f8;
-  --color-outline-variant: #c4c7c7;
+  --color-on-surface: #1d253c;
+  --color-surface-bright: #faf6e8;
+  --color-on-background: #1d253c;
+  --color-tertiary: #1d253c;
+  --color-background: #faf6e8;
+  --color-outline-variant: #1d253c;
   --color-primary-fixed: #e5e2e1;
   --color-on-tertiary-container: #85847b;
-  --color-on-surface-variant: #444748;
-  --color-surface-container-low: #f5f3f3;
-  --color-surface-container-high: #eae8e7;
+  --color-on-surface-variant: #525861;
+  --color-surface-container-low: #faf8f0;
+  --color-surface-container-high: #efebdc;
   --color-on-primary-container: #858383;
   --color-inverse-primary: #c8c6c5;
   --color-on-error-container: #93000a;
-  --color-surface-variant: #e4e2e2;
+  --color-surface-variant: #efebdc;
   --color-secondary: #5f5f56;
   --color-on-secondary-fixed: #1b1c15;
-  --color-border-subtle: #c4c7c7;
-  --color-foreground: #1b1c1c;
-  --color-border: #c4c7c7;
-  --color-text-primary: #1b1c1c;
-  --color-text-secondary: #444748;
+  --color-border-subtle: #1d253c;
+  --color-foreground: #1d253c;
+  --color-border: #1d253c;
+  --color-text-primary: #1d253c;
+  --color-text-secondary: #525861;
+
+  --color-notebook-paper: #faf6e8;
+  --color-notebook-ink: #1d253c;
+  --color-notebook-red: #c93b2b;
+  --color-notebook-yellow: #f3cd4c;
+  --color-notebook-mint: #d0e6d5;
+  --color-notebook-eraser: #e8a8a6;
+  --color-notebook-blue: #3884b0;
+  --color-notebook-graphite: #525861;
 
   --spacing-unit: 4px;
   --spacing-gutter: 24px;
@@ -64,13 +73,16 @@
   --spacing-element-gap: 16px;
   --spacing-margin-mobile: 20px;
 
-  --font-body-lg: "Inter", system-ui, -apple-system, sans-serif;
-  --font-headline-md: "Inter", system-ui, -apple-system, sans-serif;
-  --font-headline-lg-mobile: "Inter", system-ui, -apple-system, sans-serif;
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-serif: "Fraunces", Georgia, serif;
+  --font-cursive: "Caveat", cursive;
+  --font-body-lg: "Fraunces", Georgia, serif;
+  --font-headline-md: "Fraunces", Georgia, serif;
+  --font-headline-lg-mobile: "Caveat", cursive;
   --font-label-mono: "JetBrains Mono", monospace;
-  --font-body-md: "Inter", system-ui, -apple-system, sans-serif;
-  --font-headline-lg: "Inter", system-ui, -apple-system, sans-serif;
-  --font-headline-xl: "Inter", system-ui, -apple-system, sans-serif;
+  --font-body-md: "Fraunces", Georgia, serif;
+  --font-headline-lg: "Caveat", cursive;
+  --font-headline-xl: "Caveat", cursive;
   --font-caption: "Inter", system-ui, -apple-system, sans-serif;
 
   --text-body-lg: 18px;
@@ -79,35 +91,35 @@
 
   --text-headline-md: 24px;
   --text-headline-md--line-height: 1.3;
-  --text-headline-md--font-weight: 500;
+  --text-headline-md--font-weight: 600;
 
-  --text-headline-lg-mobile: 32px;
-  --text-headline-lg-mobile--line-height: 1.2;
+  --text-headline-lg-mobile: 36px;
+  --text-headline-lg-mobile--line-height: 1.1;
   --text-headline-lg-mobile--letter-spacing: -0.01em;
-  --text-headline-lg-mobile--font-weight: 600;
+  --text-headline-lg-mobile--font-weight: 700;
 
-  --text-label-mono: 14px;
+  --text-label-mono: 13px;
   --text-label-mono--line-height: 1.0;
   --text-label-mono--letter-spacing: 0.05em;
-  --text-label-mono--font-weight: 500;
+  --text-label-mono--font-weight: 600;
 
   --text-body-md: 16px;
-  --text-body-md--line-height: 1.5;
+  --text-body-md--line-height: 1.6;
   --text-body-md--font-weight: 400;
 
-  --text-headline-lg: 48px;
+  --text-headline-lg: 52px;
   --text-headline-lg--line-height: 1.1;
-  --text-headline-lg--letter-spacing: -0.02em;
-  --text-headline-lg--font-weight: 600;
+  --text-headline-lg--letter-spacing: -0.01em;
+  --text-headline-lg--font-weight: 700;
 
-  --text-headline-xl: 64px;
-  --text-headline-xl--line-height: 1.1;
-  --text-headline-xl--letter-spacing: -0.04em;
+  --text-headline-xl: 72px;
+  --text-headline-xl--line-height: 1.0;
+  --text-headline-xl--letter-spacing: -0.02em;
   --text-headline-xl--font-weight: 700;
 
   --text-caption: 12px;
   --text-caption--line-height: 1.4;
-  --text-caption--font-weight: 400;
+  --text-caption--font-weight: 500;
 }
 
 html {
@@ -407,4 +419,282 @@ body {
 .example-2 .icon-content a[data-social="youtube"] ~ .tooltip {
   background-color: #ff0000;
 }
+
+/* --- Notebook Design System Classes --- */
+
+/* Lined/Ruled Paper Background */
+.ruled-paper-bg {
+  background-color: #faf6e8;
+  background-image: 
+    linear-gradient(rgba(180, 190, 195, 0.25) 1px, transparent 1px);
+  background-size: 100% 28px;
+  background-attachment: local;
+  position: relative;
+}
+
+/* Margin Red Line */
+.notebook-margin-line {
+  position: absolute;
+  top: 0;
+  left: 90px;
+  bottom: 0;
+  width: 2px;
+  background-color: rgba(201, 59, 43, 0.65);
+  pointer-events: none;
+  z-index: 5;
+}
+
+@media (max-width: 768px) {
+  .notebook-margin-line {
+    left: 40px;
+  }
+}
+
+/* Binder Holes on the far left */
+.binder-holes {
+  position: absolute;
+  top: 0;
+  left: 28px;
+  bottom: 0;
+  width: 32px;
+  background-image: 
+    radial-gradient(circle, #525861 6px, transparent 7px),
+    radial-gradient(circle, #faf6e8 6px, transparent 7px);
+  background-size: 32px 56px;
+  background-position: 0px 10px, 0px 11px;
+  opacity: 0.2;
+  pointer-events: none;
+  z-index: 6;
+}
+
+@media (max-width: 768px) {
+  .binder-holes {
+    left: 8px;
+  }
+}
+
+/* Sticker Card Styling */
+.sticker-card {
+  background-color: #ffffff !important;
+  border: 1.5px solid #1d253c !important;
+  border-radius: 12px !important;
+  box-shadow: 4px 4px 0px #1d253c !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sticker-card:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0px #1d253c !important;
+}
+
+/* Custom button states */
+.sticker-btn-red {
+  background-color: #c93b2b !important;
+  color: #faf6e8 !important;
+  border: 2px solid #1d253c !important;
+  box-shadow: 3px 3px 0px #1d253c !important;
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+
+.sticker-btn-red:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0px #1d253c !important;
+  background-color: #b33222 !important;
+}
+
+.sticker-btn-red:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px #1d253c !important;
+}
+
+.sticker-btn-outline {
+  background-color: #ffffff !important;
+  color: #1d253c !important;
+  border: 2px solid #1d253c !important;
+  box-shadow: 3px 3px 0px #1d253c !important;
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+
+.sticker-btn-outline:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0px #1d253c !important;
+  background-color: #faf8f0 !important;
+}
+
+.sticker-btn-outline:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px #1d253c !important;
+}
+
+/* Sticky Note component */
+.sticky-note {
+  position: relative;
+  background-color: #fef08a !important; /* Default marker yellow */
+  border: 1.5px solid #1d253c !important;
+  padding: 24px;
+  box-shadow: 5px 5px 12px rgba(29, 37, 60, 0.08) !important;
+  font-family: "Caveat", cursive !important;
+  font-size: 22px !important;
+  line-height: 1.2 !important;
+  color: #1d253c !important;
+  transform: rotate(-1.5deg);
+  transition: transform 0.3s ease;
+}
+
+.sticky-note:hover {
+  transform: rotate(0deg) scale(1.02);
+}
+
+.sticky-note-pink {
+  background-color: #fbcfe8 !important; /* Eraser pink */
+  transform: rotate(1deg);
+}
+
+.sticky-note-mint {
+  background-color: #d0e6d5 !important; /* Mint */
+  transform: rotate(-1deg);
+}
+
+/* Tape on sticky notes */
+.sticky-tape {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-1deg);
+  width: 90px;
+  height: 24px;
+  background-color: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(1.5px);
+  border-left: 1.5px dashed rgba(29, 37, 60, 0.15);
+  border-right: 1.5px dashed rgba(29, 37, 60, 0.15);
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Grade Stamp component */
+.grade-stamp-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 68px;
+  height: 68px;
+  border: 2px dashed #c93b2b;
+  border-radius: 50%;
+  color: #c93b2b;
+  font-family: "Caveat", cursive;
+  font-size: 32px;
+  font-weight: 700;
+  transform: rotate(12deg);
+  opacity: 0.85;
+  user-select: none;
+  position: relative;
+  background-color: transparent;
+  padding: 4px;
+}
+
+.grade-stamp-container::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border: 1px solid #c93b2b;
+  border-radius: 50%;
+}
+
+/* Notebook Rules for Inputs */
+.notebook-input-line {
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 2px solid rgba(29, 37, 60, 0.15) !important;
+  border-radius: 0px !important;
+  padding: 8px 4px !important;
+  font-family: "Caveat", cursive !important;
+  font-size: 24px !important;
+  color: #1d253c !important;
+  outline: none !important;
+  transition: border-bottom-color 0.25s ease;
+}
+
+.notebook-input-line:focus {
+  border-bottom: 2px solid #1d253c !important;
+}
+
+/* Highlighter Yellow Underline/Background */
+.highlight-yellow {
+  background: linear-gradient(120deg, rgba(243, 205, 76, 0.4) 0%, rgba(243, 205, 76, 0.4) 100%);
+  background-repeat: no-repeat;
+  background-size: 100% 80%;
+  background-position: 0 88%;
+}
+
+.highlight-mint {
+  background: linear-gradient(120deg, rgba(208, 230, 213, 0.6) 0%, rgba(208, 230, 213, 0.6) 100%);
+  background-repeat: no-repeat;
+  background-size: 100% 80%;
+  background-position: 0 88%;
+}
+
+.highlight-red {
+  color: #c93b2b;
+}
+
+/* Timeline Custom Ruled Binder Thread */
+.notebook-timeline-thread {
+  position: absolute;
+  top: 0;
+  left: 20px;
+  bottom: 0;
+  width: 2px;
+  background-color: #1d253c;
+}
+
+/* --- IDE Code Editor Component Styles --- */
+.syntax-keyword {
+  color: #ff79c6; /* Dracula Pink/Red */
+  font-weight: 600;
+}
+.syntax-string {
+  color: #50fa7b; /* Dracula Green */
+}
+.syntax-fn {
+  color: #8be9fd; /* Dracula Cyan */
+}
+.syntax-comment {
+  color: #6272a4; /* Dracula Gray/Blue */
+  font-style: italic;
+}
+.syntax-num {
+  color: #bd93f9; /* Dracula Purple */
+}
+.syntax-tag {
+  color: #ff5555; /* Dracula Red */
+  font-weight: 600;
+}
+.syntax-attr {
+  color: #ffb86c; /* Dracula Orange */
+}
+.syntax-punct {
+  color: #f8f8f2; /* Dracula White */
+}
+.syntax-var {
+  color: #f8f8f2;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #0f1322;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #273151;
+  border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #394775;
+}
+
+
 
