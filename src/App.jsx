@@ -591,7 +591,7 @@ function App() {
                 <div className="sticky-tape"></div>
                 <p className="font-cursive font-bold text-lg mb-0.5 text-notebook-ink">Goal</p>
                 <p className="font-cursive text-sm text-notebook-ink leading-tight">
-                  Be a Best &amp;Perfect developer.
+                  To bridge the gap between elegant design and robust logic, one clean line at a time.
                 </p>
               </motion.div>
             </div>
@@ -1217,7 +1217,7 @@ function App() {
             <span className="font-cursive text-2xl font-bold text-notebook-ink tracking-tight">Neel Patel</span>
           </a>
           <div className="font-serif text-caption text-notebook-graphite text-center">
-            © 2026 Neel Patel. Built with precision and notebook aesthetic.
+            © Neel Patel. Built your dream.
           </div>
           <ul className="example-2">
             <li className="icon-content">
